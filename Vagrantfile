@@ -1,6 +1,6 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
-default_box = "generic/opensuse15"
+#default_box = "bento/opensuse15"
 
 # All Vagrant configuration is done below. The "2" in Vagrant.configure
 # configures the configuration version (we support older styles for
@@ -15,7 +15,8 @@ Vagrant.configure("2") do |config|
   # boxes at https://vagrantcloud.com/search.
 
   config.vm.define "master" do |master|
-    master.vm.box = default_box
+    master.vm.box = "bento/ubuntu-22.04"
+    master.vm.box_version = "202502.21.0"
     master.vm.hostname = "master"
     master.vm.network 'private_network', ip: "192.168.0.200",  virtualbox__intnet: true
     master.vm.network "forwarded_port", guest: 22, host: 2222, id: "ssh", disabled: true
@@ -25,14 +26,15 @@ Vagrant.configure("2") do |config|
       master.vm.network "forwarded_port", guest: p, host: p, protocol: "tcp"
       end
     master.vm.provider "virtualbox" do |v|
-      v.memory = "3072"
+      v.memory = "30720"
       v.name = "master"
+      v.cpus = 8
       end
     master.vm.provision "shell", inline: <<-SHELL
-      sudo zypper refresh
-      sudo zypper --non-interactive install bzip2
-      sudo zypper --non-interactive install etcd
-      sudo zypper --non-interactive install apparmor-parser
+      sudo apt update
+      sudo apt install -y bzip2
+      sudo apt install -y etcd
+      sudo apt install -y apparmor
       curl -sfL https://get.k3s.io | sh -
     SHELL
   end
