@@ -142,6 +142,7 @@ To manually connect to the database, you will need software compatible with Post
 * GUI users will find [pgAdmin](https://www.pgadmin.org/) to be a popular open-source solution.
 
 ## Architecture Diagrams
+The actual achitecture description can be found here: ![Architecture overview](docs/architecture.md)
 Your architecture diagram should focus on the services and how they talk to one another. For our project, we want the diagram in a `.png` format. Some popular free software and tools to create architecture diagrams:
 1. [Lucidchart](https://www.lucidchart.com/pages/)
 2. [Google Docs](docs.google.com) Drawings (In a Google Doc, _Insert_ - _Drawing_ - _+ New_)
