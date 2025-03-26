@@ -16,5 +16,5 @@ message PersonList {
 }
 
 service PersonService {
-    rpc Get(empty) returns Person
+    rpc Get(empty) returns (PersonList);
 }
