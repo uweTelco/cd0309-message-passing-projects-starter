@@ -11,6 +11,8 @@ logging.basicConfig(level=logging.WARNING)
 logger = logging.getLogger("udaconnect-persoon-api")
 
 
+
+
 class PersonService:
     @staticmethod
     def create(person: Dict) -> Person:

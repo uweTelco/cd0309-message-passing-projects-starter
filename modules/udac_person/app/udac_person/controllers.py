@@ -10,10 +10,18 @@ from flask_accepts import accepts, responds
 from flask_restx import Namespace, Resource
 from typing import Optional, List
 from werkzeug.exceptions import BadRequest, NotFound, InternalServerError
-
+from kafka import KafkaProducer
+    
 DATE_FORMAT = "%Y-%m-%d"
 
 api = Namespace("UdaConnect Person API", description="Connections via geolocation.")  # noqa
+
+def put_report_data(message) :
+    TOPIC_NAME = 'udac_counter'
+    KAFKA_SERVER = 'localhost:9092'
+    producer = KafkaProducer(bootstrap_servers=KAFKA_SERVER)
+    producer.send(TOPIC_NAME, message)
+    producer.flush()
 
 
 @api.route("/persons")
@@ -34,6 +42,7 @@ class PersonsResource(Resource):
     def get(self) -> List[Person]:
         try:
             persons: List[Person] = PersonService.retrieve_all()
+            put_report_data(datetime.now) # sending the time of the call from the frontend.
             return persons
         except Exception as e:
             return jsonify({"error": "An unexpected error occurred", "message": str(e)}), 500
