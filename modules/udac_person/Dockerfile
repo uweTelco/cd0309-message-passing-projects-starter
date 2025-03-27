@@ -1,12 +1,15 @@
-FROM python:3.13-alpine
+FROM python:3.13
 
 WORKDIR .
 
-RUN apk add --no-cache gcc musl-dev linux-headers geos libc-dev postgresql-dev
+RUN apt-get update && \
+    apt-get install -y gcc musl-dev libc-dev && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt
 
 EXPOSE 5000 5001
 
 COPY . .
-CMD ["python", "wsgi.py"]
+CMD ["flask", "run", "--host", "0.0.0.0"]

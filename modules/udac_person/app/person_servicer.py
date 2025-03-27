@@ -3,7 +3,7 @@ import person_pb2
 import person_pb2_grpc
 from app.udac_person.services import PersonService
 
-class  PersonServiceServcier(person_pb2_grpc.PersonServiceServicer):
+class  PersonServiceServicer(person_pb2_grpc.PersonServiceServicer):
     def Get(self, request, context):
  # Retrieve all persons from the database using the service
         persons = PersonService.retrieve_all()
