@@ -4,6 +4,7 @@ sqlalchemy
 geoalchemy2
 shapely
 marshmallow_sqlalchemy
+flask_cors
+flask_sqlalchemy
 grpcio
 grpcio-tools
-kafka-python
