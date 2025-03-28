@@ -17,7 +17,7 @@ DATE_FORMAT = "%Y-%m-%d"
 api = Namespace("UdaConnect Person API", description="Connections via geolocation.")  # noqa
 
 def put_report_data(message) :
-    TOPIC_NAME = 'udac_counter'
+    TOPIC_NAME = 'udac-counter'
     KAFKA_SERVER = 'kafka:9092'
     producer = KafkaProducer(bootstrap_servers=KAFKA_SERVER)
     producer.send(TOPIC_NAME, message.encode('utf-8'))
@@ -42,7 +42,8 @@ class PersonsResource(Resource):
     def get(self) -> List[Person]:
         try:
             persons: List[Person] = PersonService.retrieve_all()
-            put_report_data("Hello World.") # sending the time of the call from the frontend.
+            now = datetime.now()
+            put_report_data(now.strftime("%Y-%m-%d %H:%M:%S")) # sending the time of the call from the frontend.
             return persons
         except Exception as e:
             return jsonify({"error": "An unexpected error occurred", "message": str(e)}), 500

@@ -1,0 +1,42 @@
+openapi: 3.0.1
+info:
+  title: UdaConnect Person API
+  version: 0.1.0
+tags:
+  - name: UdaConnect Person API
+    description: Connections via geolocation.
+paths:
+  /api/persons:
+    get:
+      operationId: get_persons_resource
+      tags:
+        - UdaConnect Person API
+      responses:
+         "200":
+          description: List of Persons fetched successfully
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Person"   
+components:
+  schemas:
+    Person:
+      type: object
+      description: Person 
+      properties: 
+        id:
+          type: string
+          description: unique identifier
+        first_name:
+          type: string
+          description: first name of the person
+        last_name:
+          type: string
+          description: last or sur name of the person
+        company_name: 
+          type: string
+          description: Name of the company person is working for.
+
+ 
