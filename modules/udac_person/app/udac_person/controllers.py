@@ -18,9 +18,9 @@ api = Namespace("UdaConnect Person API", description="Connections via geolocatio
 
 def put_report_data(message) :
     TOPIC_NAME = 'udac_counter'
-    KAFKA_SERVER = 'localhost:9092'
+    KAFKA_SERVER = 'kafka:9092'
     producer = KafkaProducer(bootstrap_servers=KAFKA_SERVER)
-    producer.send(TOPIC_NAME, message)
+    producer.send(TOPIC_NAME, message.encode('utf-8'))
     producer.flush()
 
 
@@ -42,7 +42,7 @@ class PersonsResource(Resource):
     def get(self) -> List[Person]:
         try:
             persons: List[Person] = PersonService.retrieve_all()
-            put_report_data(datetime.now) # sending the time of the call from the frontend.
+            put_report_data("Hello World.") # sending the time of the call from the frontend.
             return persons
         except Exception as e:
             return jsonify({"error": "An unexpected error occurred", "message": str(e)}), 500

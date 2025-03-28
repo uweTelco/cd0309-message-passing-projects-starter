@@ -1,8 +1,11 @@
-FROM python:3.7-alpine
+FROM python:3.13
 
 WORKDIR .
 
-RUN apk add --no-cache gcc musl-dev linux-headers geos libc-dev postgresql-dev
+RUN apt-get update && \
+    apt-get install -y gcc musl-dev libc-dev && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 COPY requirements.txt requirements.txt
 RUN pip install -r requirements.txt
 
