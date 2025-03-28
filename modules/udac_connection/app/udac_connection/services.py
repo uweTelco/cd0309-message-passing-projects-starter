@@ -118,7 +118,7 @@ class PersonService:
         persons = []
         for person in response.person:
             person_record = Person(
-                id=person.id,
+                id=int(person.id),
                 first_name=person.first_name,
                 last_name=person.last_name,
                 company_name=person.company_name
