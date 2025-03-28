@@ -1,15 +1,20 @@
-FROM python:3.13
+FROM python:3.13-slim
 
-WORKDIR .
+WORKDIR /app
 
+# Install compiler and PostgreSQL dev tools
 RUN apt-get update && \
-    apt-get install -y gcc musl-dev libc-dev && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
-COPY requirements.txt requirements.txt
-RUN pip install -r requirements.txt
+    apt-get install -y --no-install-recommends \
+    gcc \
+    python3-dev \
+    libpq-dev && \  
+    apt-get clean
+
+COPY requirements.txt .
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY . .
 
 EXPOSE 5000 5001
 
-COPY . .
-CMD ["flask", "run", "--host", "0.0.0.0"]
+CMD ["python", "wsgi.py"]

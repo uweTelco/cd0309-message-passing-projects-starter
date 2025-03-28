@@ -7,25 +7,26 @@ from app import create_app
 import logging
 from logging import StreamHandler
 
-# Set up logging to standard output
-stream_handler = StreamHandler()
-stream_handler.setLevel(logging.INFO)  # You can adjust the level to DEBUG, WARNING, etc.
-formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-stream_handler.setFormatter(formatter)
-
-# Get the root logger
+# Unified logging setup before anything else
 root_logger = logging.getLogger()
-root_logger.setLevel(logging.INFO)  # Set the desired log level
-root_logger.addHandler(stream_handler)
+root_logger.setLevel(logging.INFO)
+handler = StreamHandler()
+formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+handler.setFormatter(formatter)
+root_logger.addHandler(handler)
 
-logger = logging.getLogger('wsgi')
+# Explicit configuration for gRPC logger
+grpc_logger = logging.getLogger('grpc')
+grpc_logger.setLevel(logging.INFO)
+
+logger = logging.getLogger('main')
 
 def serve_grpc():
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=2))
     person_pb2_grpc.add_PersonServiceServicer_to_server(PersonServiceServicer(), server)
     server.add_insecure_port('[::]:5001')
     server.start()
-    logger.info('Serving on port 5001.')
+    logger.info('gRPC server initialized on port 5001')  # Changed log message
     return server
 
 app = create_app(os.getenv("FLASK_ENV") or "test")
@@ -33,6 +34,10 @@ app = create_app(os.getenv("FLASK_ENV") or "test")
 if __name__ == "__main__":
     grpc_server = serve_grpc()
     try:
-        app.run(debug=True)  # Flask will run on the default port 5000
+        logger.info("Starting Flask server on port 5000")
+        app.run(host='0.0.0.0', port=5000, debug=False, use_reloader=False)
+    except KeyboardInterrupt:
+        pass
     finally:
-        grpc_server.stop(0)  # Stop the gRPC server when the Flask app stops
+        grpc_server.stop(0)
+        logger.info("Graceful shutdown complete")

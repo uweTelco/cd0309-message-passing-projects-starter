@@ -38,7 +38,7 @@ class PersonsResource(Resource):
         except Exception as e:
             return jsonify({"error": "An unexpected error occurred", "message": str(e)}), 500
 
-    @responds(schema=PersonSchema, many=True)
+    @responds(schema=PersonSchema( many=True))
     def get(self) -> List[Person]:
         try:
             persons: List[Person] = PersonService.retrieve_all()
