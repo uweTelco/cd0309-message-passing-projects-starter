@@ -10,3 +10,4 @@ grpcio
 grpcio-tools
 kafka-python
 psycopg2
+grpcio-health-checking
