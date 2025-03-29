@@ -1,6 +1,6 @@
 from datetime import datetime
 
-from app.udac_connection.models import Connection, Location, Person
+from app.udac_connection.models import Connection
 from app.udac_connection.schemas import (
     ConnectionSchema
 )
@@ -53,6 +53,6 @@ class ConnectionDataResource(Resource):
             return results
         
         except BadRequest as e:
-            return jsonify({"error": str(e)}), 400
+            return {"error": str(e)}, 400
         except Exception as e:
-            return jsonify({"error": "An unexpected error occurred.", "details": str(e)}), 500
+            return {"error": "An unexpected error occurred.", "details": str(e)}, 500
