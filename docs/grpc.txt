@@ -1,0 +1,4 @@
+To test the grpc go to modules/test and run
+python3 app.py
+
+This will call the person endpoint from grpc. 
