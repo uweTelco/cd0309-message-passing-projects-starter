@@ -7,6 +7,6 @@ spec:
     spec:
       containers:
       - name: kafka-topic-creator
-        image: confluentinc/cp-kafka:latest
+        image: confluentinc/cp-kafka:7.4.1
         command: ["sh", "-c", "kafka-topics --create --topic udac-counter --bootstrap-server kafka:9092 --partitions 50 --replication-factor 1"]
       restartPolicy: OnFailure
