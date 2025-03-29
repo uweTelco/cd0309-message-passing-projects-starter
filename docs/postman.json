@@ -1,0 +1,27 @@
+{
+	"info": {
+		"_postman_id": "bb8156f9-7342-4fd4-9139-78a72f09760a",
+		"name": "udaConnectCollection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "43578077",
+		"_collection_link": "https://uwe-7923572.postman.co/workspace/Uwe's-Workspace~752da5c9-2451-4d6b-8ef5-5b9918a46222/collection/43578077-bb8156f9-7342-4fd4-9139-78a72f09760a?action=share&source=collection_link&creator=43578077"
+	},
+	"item": [
+		{
+			"name": "Get Persons",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		},
+		{
+			"name": "Get Connections",
+			"request": {
+				"method": "GET",
+				"header": []
+			},
+			"response": []
+		}
+	]
+}
