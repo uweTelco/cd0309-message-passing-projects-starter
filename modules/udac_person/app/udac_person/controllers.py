@@ -34,9 +34,9 @@ class PersonsResource(Resource):
             new_person: Person = PersonService.create(payload)
             return new_person
         except BadRequest as e:
-            return jsonify({"error": "Invalid data provided", "message": str(e)}), 400
+            return {"error": "Invalid data provided", "message": str(e)}, 400
         except Exception as e:
-            return jsonify({"error": "An unexpected error occurred", "message": str(e)}), 500
+            return {"error": "An unexpected error occurred", "message": str(e)}, 500
 
     @responds(schema=PersonSchema( many=True))
     def get(self) -> List[Person]:
@@ -46,7 +46,7 @@ class PersonsResource(Resource):
             put_report_data(now.strftime("%Y-%m-%d %H:%M:%S")) # sending the time of the call from the frontend.
             return persons
         except Exception as e:
-            return jsonify({"error": "An unexpected error occurred", "message": str(e)}), 500
+            return {"error": "An unexpected error occurred", "message": str(e)}, 500
 
 
 @api.route("/persons/<person_id>")
@@ -60,6 +60,6 @@ class PersonResource(Resource):
                 return jsonify({"error": "Person not found"}), 404
             return person
         except NotFound as e:
-            return jsonify({"error": "Person not found", "message": str(e)}), 404
+            return {"error": "Person not found", "message": str(e)}, 404
         except Exception as e:
-            return jsonify({"error": "An unexpected error occurred", "message": str(e)}), 500
+            return {"error": "An unexpected error occurred", "message": str(e)}, 500
